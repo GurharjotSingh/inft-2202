@@ -1,66 +1,79 @@
-// Function to validate the form
-function validateAnimalForm(form) {
-    let isValid = true;
+/* Name = Gurharjot Singh
+Date = 17-01-2025
+Description = Animal Form-->*/
+
+
+// Tab Navigation Logic
+document.querySelectorAll(".nav-link").forEach(tab => {
+    tab.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent default link behavior
   
-    // Loop through each field in the form
-    for (let field of form.elements) {
-      if (field.tagName !== "INPUT") continue; // Skip non-input fields
+      // Remove 'active' class from all tabs
+      document.querySelectorAll(".nav-link").forEach(link => link.classList.remove("active"));
   
-      const errorElement = field.nextElementSibling;
-      if (!field.value.trim()) {
-        // Field is invalid
-        isValid = false;
-        errorElement.textContent = `The ${field.name} field is required.`;
-        errorElement.classList.remove("d-none");
-        field.classList.add("is-invalid");
-        field.classList.remove("is-valid");
-      } else {
-        // Field is valid
-        errorElement.textContent = "";
-        errorElement.classList.add("d-none");
-        field.classList.remove("is-invalid");
-        field.classList.add("is-valid");
-      }
+      // Add 'active' class to the clicked tab
+      tab.classList.add("active");
+  
+      // Hide all sections
+      document.querySelectorAll("#home-section, #add-animal-section, #show-animals-section, #contact-section, #about-section")
+        .forEach(section => section.classList.add("hidden"));
+  
+      // Show the corresponding section
+      const sectionId = tab.id.replace("-tab", "-section");
+      document.getElementById(sectionId).classList.remove("hidden");
+    });
+  });
+  
+  // Animal Form Submission Logic
+  document.getElementById("animal-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+  
+    // Collect form data
+    const name = document.getElementById("name").value.trim();
+    const breed = document.getElementById("breed").value.trim();
+    const legs = document.getElementById("legs").value.trim();
+    const eyes = document.getElementById("eyes").value.trim();
+    const sound = document.getElementById("sound").value.trim();
+  
+    // Validate input
+    if (!name || !breed || !legs || !eyes || !sound) {
+      alert("Please fill out all fields.");
+      return;
     }
   
-    return isValid;
-  }
+    // Save animal to local storage
+    const animals = JSON.parse(localStorage.getItem("animals")) || [];
+    animals.push({ name, breed, legs, eyes, sound });
+    localStorage.setItem("animals", JSON.stringify(animals));
   
-  // Function to handle form submission
-  function submitAnimalForm(event) {
-    event.preventDefault(); // Prevent the default form submission
+    // Reset form and show "Show Animals" section
+    document.getElementById("animal-form").reset();
+    document.getElementById("show-animals-tab").click();
   
-    const form = event.target;
+    // Render animals
+    renderAnimals();
+  });
   
-    // Validate the form
-    if (validateAnimalForm(form)) {
-      // Form is valid, print the form values to the console
-      const formData = {};
-      for (let field of form.elements) {
-        if (field.tagName === "INPUT") {
-          formData[field.name] = field.value;
-        }
-      }
-      console.log("Form Submitted:", formData);
+  // Render Animals in the "Show Animals" Section
+  function renderAnimals() {
+    const animals = JSON.parse(localStorage.getItem("animals")) || [];
+    const animalList = document.getElementById("animal-list");
+    animalList.innerHTML = "";
   
-      // Reset the form
-      form.reset();
-  
-      // Clear validation styles
-      for (let field of form.elements) {
-        if (field.tagName === "INPUT") {
-          field.classList.remove("is-valid");
-          field.classList.remove("is-invalid");
-        }
-      }
-    } else {
-      // Form is invalid, show a general error message
-      const messageBox = document.getElementById("message-box");
-      messageBox.textContent = "Please fix the errors in the form before submitting.";
-      messageBox.classList.remove("d-none");
+    if (animals.length === 0) {
+      animalList.innerHTML = "<li class='list-group-item'>No animals added yet.</li>";
+      return;
     }
+  
+    animals.forEach(animal => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("list-group-item");
+      listItem.textContent = `Name: ${animal.name}, Breed: ${animal.breed}, Legs: ${animal.legs}, Eyes: ${animal.eyes}, Sound: ${animal.sound}`;
+      animalList.appendChild(listItem);
+    });
   }
   
-  // Attach the submit event handler to the form
-  document.getElementById("animal-form").addEventListener("submit", submitAnimalForm);
+  // Render animals on page load
+  renderAnimals();
+  
   
