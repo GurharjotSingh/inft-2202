@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Animal Form</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Create a New Animal Entry</h1>
+
+    <!-- Message Box for General Errors -->
+    <div id="message-box" class="alert alert-danger d-none"></div>
+
+    <!-- Animal Form -->
+    <form id="animal-form" novalidate>
+      <!-- Breed Field -->
+      <div class="form-group">
+        <label for="breed">Breed</label>
+        <input type="text" id="breed" name="breed" class="form-control">
+        <p class="text-danger d-none"></p>
+      </div>
+
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" class="form-control">
+        <p class="text-danger d-none"></p>
+      </div>
+
+      <!-- Eyes Field -->
+      <div class="form-group">
+        <label for="eyes">Eyes</label>
+        <input type="number" id="eyes" name="eyes" class="form-control">
+        <p class="text-danger d-none"></p>
+      </div>
+
+      <!-- Legs Field -->
+      <div class="form-group">
+        <label for="legs">Legs</label>
+        <input type="number" id="legs" name="legs" class="form-control">
+        <p class="text-danger d-none"></p>
+      </div>
+
+      <!-- Sound Field -->
+      <div class="form-group">
+        <label for="sound">Sound</label>
+        <input type="text" id="sound" name="sound" class="form-control">
+        <p class="text-danger d-none"></p>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <!-- Include your JavaScript -->
+  <script src="create.js"></script>
+</body>
+</html>
